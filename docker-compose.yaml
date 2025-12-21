@@ -1,29 +1,27 @@
 
-# docker-compose.yml
 services:
   dev:
     build:
       context: .
       dockerfile: Dockerfile
-      # Choose base image via build args (optional)
       args:
         BASE: "${BASE_IMAGE:-ubuntu:24.04}"
     image: cpp-dev:${TARGET_ARCH:-arm64}
-    # Set architecture explicitly (Mac M1 can do both; amd64 uses QEMU and is slower)
     platform: "linux/${TARGET_ARCH:-arm64}"
     working_dir: /workspace
     volumes:
       - .:/workspace:delegated
     stdin_open: true
     tty: true
-    # Environment passed to container (can be used by cmake)
-    environment:
-      - CMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE:-Debug}
-    # Default command puts you in a shell for interactive dev
-    command: [ "bash", "-lc", "bash" ]
+    command: ["bash", "-lc", "bash"]
     profiles: ["dev"]
 
-  # Automated build & test runner as a separate service
+    # CPU controls (non-Swarm)
+    cpus: "${DEV_CPUS:-2.0}"        # limit to 2 cores worth of compute
+    cpu_shares: 512                 # relative scheduling weight (default 1024)
+    # Pin to specific logical cores (optional)
+    # cpuset: "${DEV_CPUSET:-0-3}"
+
   ci:
     build:
       context: .
@@ -35,7 +33,6 @@ services:
     working_dir: /workspace
     volumes:
       - .:/workspace:delegated
-    # Run configure, build, tests. Adjust to your project.
     command: >
       bash -lc "
       cmake -S . -B build -G Ninja -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE:-Debug} &&
@@ -44,3 +41,8 @@ services:
       ./build/app
       "
     profiles: ["ci"]
+
+    # CPU controls (non-Swarm)
+    cpus: "${CI_CPUS:-3.0}"         # give CI a bit more
+    cpu_shares: 1024
+    # cpuset: "${CI_CPUSET:-0-5}"
