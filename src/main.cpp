@@ -14,6 +14,174 @@ using pairlista_t = std::vector<std::pair<std::string, int>>;
 using texta_t = std::string;
 using numbera_t = int;
 
+class Shape {
+    public:
+        double area;
+        double volume;
+}
+
+class Cube : public Shape{
+    public:
+        double side;
+    Cube(double s) {
+        this->side = s;
+        this->area = side * side * 6;
+        this->volume = side * side * side;
+    }
+};
+
+class Sphere : public Shape {
+    public:
+        double radius;
+    Sphere(double r) {
+        this->radius = r;
+        this->area = 4 * 3.14159 * radius * radius;
+        this->volume = (4/3) * 3.14159 * radius * radius * radius;
+    }
+}
+
+class Animal {
+    public:
+        bool alive = true;
+
+    void eat() {
+        std::cout << "This animal is eating\n";
+    }
+}
+
+class Dog : public Animal { // Dog class inherits from Animal class
+    public:
+        std::string breed;
+        std::string color;
+
+    void bark() {
+        std::cout << "Woof Woof\n";
+    }
+
+}
+
+class Cat : public Animal {
+    public:
+        std::string breed;
+        std::string color;
+
+    void meow() {
+        std::cout << "Meow Meow\n";
+    }
+
+}
+
+class Stove {
+    public:
+        int temperature = 0; // public attribute so people can change it directly
+
+    bool getOn() {
+        return on;
+    }
+
+    void setOn(bool status) {
+        this->on = status;
+    }
+    
+    private:
+        bool on = false; // private attribute so people cannot change it directly
+
+}
+
+class Pizza {
+    public:
+        std::string topping1;
+        std:: string topping2;
+
+    Pizza() {
+        // this will make error go away if no arguments are passed when you initialized an object with no parameters in this case no toppings
+    }
+    
+    Pizza(std::string t1) {
+        this->topping1 = t1;
+    }
+
+    Pizza(std::string t1, std::string t2) {
+        this->topping1 = t1;
+        this->topping2 = t2;
+    }
+};
+
+class Student {
+    public:
+        std::string name;
+        int age;
+        double gpa;
+        bool enrolled;
+    
+        Student(std::string n, int a, double g, bool e) {
+            this->name = n;
+            this->age = a;
+            this->gpa = g;
+            this->enrolled = e;
+        }
+};
+
+class Car {
+    public:
+        std::string make;
+        std::string model;
+        int year;
+        double price;
+        bool used;
+
+        void start() {
+            std::cout << "The car is starting\n";
+        }
+
+        void stop() {
+            std::cout << "The car is stopping\n";
+        }
+};
+
+class Human {
+    public:
+        std::string name;
+        std::string occupation;
+        int age;
+
+        void eat() {
+            std::cout << "This person is eating\n";
+        }
+
+        void drink() {
+            std::cout << "This person is drinking\n";
+        }
+
+        void sleep() {
+            std::cout << "This person is sleeping\n";
+        }
+
+}
+
+enum Day {
+    SUNDAY = 0,
+    MONDAY = 1,
+    TUESDAY = 2,
+    WEDNESDAY = 3,
+    THURSDAY = 4,
+    FRIDAY = 5,
+    SATURDAY = 6
+};
+struct Car {
+    std::string make;
+    std::string model;
+    int year;
+    double price;
+    bool used;
+}
+struct student {
+    std::string name;
+    int age;
+    double gpa;
+    bool enrolled;
+};
+
 namespace first{
     int x = 1;
 }
@@ -656,10 +824,174 @@ int main() {
     // i nwould normally use overloaded function with different parameters (types in this case)
 
     // so what if we could write one fucntion that accepts any data type
+    // 2 and 2.1 matching? you are passing two different data types so add another typename parameter!
+    // it's like cookie cutter function so you don't need different versions of the same fucntion
 
+    // 53 structs = a user-defined data type that allows grouping related variables of different types under a single name
+    // a struct is a structure that groups related variables under one name for easier handling
+    // variables in a struct are known as "members"
+    //members can be access with "Class member access operation"
+
+    student student1;
+    student1.name = "Bro";
+    student1.age = 21;
+    student1.gpa = 2.5;
+    student.enrolled = true;
+
+    std::cout << "Name: " << student1.name << "\n";
+    std::cout << "Age: " << student1.age << "\n";
+    std::cout << "GPA: " << student1.gpa << "\n";
+    std::cout << "Enrolled: " << (student1.enrolled ? "Yes" : "No") << "\n";
+
+    //54 pass structs to functions by value vs by reference
+
+    Car car1;
+    car1.make = "Toyota";
+    car1.model = "Camry";
+    car1.year = 2020;
+    car1.price = 25000.0;
+    car1.used = false;
+
+    printCar(car1);
+
+    //55 enums = a user-friendly data type that consists of paired named-integer constants.
+    // GREAT if you have a set of potential options
+
+    Day today = sunday;
+
+    switch (today) {
+        case SUNDAY:
+            std::cout << "It's Sunday!\n";
+            break;
+        case MONDAY:
+            std::cout << "It's Monday!\n";
+            break;
+        case TUESDAY:
+            std::cout << "It's Tuesday!\n";
+            break;
+        case WEDNESDAY:
+            std::cout << "It's Wednesday!\n";
+            break;
+        case THURSDAY:
+            std::cout << "It's Thursday!\n";
+            break;
+        case FRIDAY:
+            std::cout << "It's Friday!\n";
+            break;
+        case SATURDAY:
+            std::cout << "It's Saturday!\n";
+            break;
+        default:
+            std::cout << "Invalid day.\n";
+    }
+
+    //56 object oriented programming (OOP) = programming paradigm that uses "objects" to represent data and methods to manipulate that data.
+    // a collection of attributes and methods
+    // they can have characteristics and can perform actions
+    // can be used to mimic real world items (ex. Phone, Book, Dog)
+    //Created from a class which acts as 'blue-print
+
+    // attributes are characteristics of objects (ex. color, size, shape)
+    // methods are actions that objects can perform (ex. bark, run, jump)
+
+    Human human1;
+    human1.name = "Alice";
+    human1.occupation = "Engineer";
+    human1.age = 30;
+
+    std::cout << human1.name << " is a " << human1.occupation << " and is " << human1.age << " years old.\n";
+
+    // you can also add values to objects
+    human1.eat();
+    human1.drink();
+    human1.sleep();
+
+    Car car1;
+    car1.make = "Toyota";
+    car1.model = "Camry";
+    car1.year = 2020;
+    car1.price = 25000.0;
+    car1.used = false;
+
+    car1.start();
+    car1.stop();
+
+    // this is similar to structs but with added features like encapsulation, inheritance, and polymorphism
+    
+    //57 constructors: special method that is automatically called when an object is instantiated
+    // useful for assigning values to attributes as arguments
+
+    car1.make = "Honda";
+
+    Student student1("Bro", 21, 2.5, true);
+
+    std::cout << "Name: " << student1.name << "\n";
+    std::cout << "Age: " << student1.age << "\n";
+    std::cout << "GPA: " << student1.gpa << "\n";
+
+    // why do we use this->name = n;
+    // we use this->name = n; to differentiate between the class member variable 'name' and the constructor parameter 'n'
+    // 'this' is a pointer that refers to the current object instance
+    // by using this->name, we explicitly indicate that we are assigning the value of the parameter 'n' to the member variable 'name' of the current object
+
+    //58 overload constructors: multiple constructors w/same name but different parameters
+    // allow for varying arguments when instantiating objects
+
+    Pizza pizza1("pepperoni");
+    Pizza pizza2("mushroom", "peppers");
+    Pizza pizza3("sausage", "onions");
+
+    std::cout << pizza2.topping1 << "\n";
+    std::cout << pizza2.topping2 << "\n";
+
+    //59 getters and setters
+    // Abstraction = hiding unnecessary data from outside a class (it's about attributes!)
+    // Getters = function that makes a private attribute READABLE
+    // Setters = function that makes a private attribute WRITABLE
+
+    Stove stove1;
+    stove1.setOn(true);
+
+    std::cout << "Stove is on: " << stove1.getOn() << "\n";
+
+    //60. Inheritance a class can receive attributes and methods from another class
+    // children classes inherit from a Parent class (base class)
+    // promotes code reusability and establishes a hierarchical relationship between classes
+
+    Dog dog1;
+    Cat cat1;
+
+    std::cout << cat.alive << '\n';
+    cat.eat();
+    cat.meow();
 
     //Vectors, Polymorphism, STL, Smart Pointers, and modern C++23 features.
+
+
+    //also treat these topics
+    // encapsulation = bundling data and methods that operate on that data within a single unit
+    // inheritance = mechanism where a new class can inherit properties and methods from an existing class
+    // polymorphism = ability of different classes to be treated as instances of the same class through a common interface
+
+
+
+    /// notes 
+    // int * pX = &x; // x by reference instead of by value
+    // int y = *pX; // dereferencing pointer to get value at that address
     return 0;
+}
+//const Car car if this then you create copy of car1
+void printCar(Car& car) {
+    std::cout << "Make: " << car.make << "\n";
+    std::cout << "Model: " << car.model << "\n";
+    std::cout << "Year: " << car.year << "\n";
+    std::cout << "Price: $" << car.price << "\n";
+    std::cout << "Used: " << (car.used ? "Yes" : "No") << "\n";
+}
+
+template<typename T, typename U>
+T max(T x, T y) {
+    return (x > y) ? x : y;
 }
 
 template<typename T>
